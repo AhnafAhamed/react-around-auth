@@ -4,6 +4,9 @@
 @import url(./blocks/homepage/homepage.css);
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__info/header__info.css);
+@import url(./blocks/header/__text/header__text.css);
+@import url(./blocks/header/__text/_log-out/header__text_log-out.css);
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__image/profile__image.css);
 @import url(./blocks/profile/__info/profile__info.css);
@@ -53,3 +56,10 @@
 @import url(./blocks/image-expanded/__container/image-expanded__container.css);
 @import url(./blocks/image-expanded/__image/image-expanded__image.css);
 @import url(./blocks/image-expanded/__title/image-expanded__title.css);
+@import url(./blocks/authorization/authorization.css);
+@import url(./blocks/authorization/__form/authorization__form.css);
+@import url(./blocks/authorization/__title/authorization__title.css);
+@import url(./blocks/authorization/__info/authorization__info.css);
+@import url(./blocks/authorization/__input/authorization__input.css);
+@import url(./blocks/authorization/__button/authorization__button.css);
+@import url(./blocks/authorization/__link/authorization__link.css);

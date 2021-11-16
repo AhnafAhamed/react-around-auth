@@ -9,6 +9,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import InfoToolTip from "./InfoToolTip";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -115,7 +116,7 @@ function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <div className="body">
+        <div className="body hide">
           <Header />
           <div className="homepage">
             <Main
@@ -152,6 +153,7 @@ function App() {
             />
           </div>
         </div>
+        <InfoToolTip/>
       </CurrentUserContext.Provider>
     </>
   );

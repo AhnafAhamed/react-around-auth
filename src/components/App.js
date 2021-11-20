@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Switch, Redirect, withRouter, BrowserRouter } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter, useHistory } from "react-router-dom";
 import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
@@ -14,6 +14,7 @@ import InfoToolTip from "./InfoToolTip";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
+import AuthApi from "../utils/auth";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -23,7 +24,10 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
-  const [loggedIn, setLogIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const history = useHistory();
 
   useEffect(() => {
     api.renderUserInfo().then((data) => {
@@ -36,6 +40,48 @@ function App() {
       setCards(data);
     });
   }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(token){
+      AuthApi.checkUserToken(token)
+      .then((res) => {
+        setLoggedIn(true);
+        setEmail(res.data.email);
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log('token' + err)
+      })
+    }
+  }, [history])
+
+  function handleUserRegistration({ email, password }) {
+    if( !email || !password ) {
+      return;
+    }
+    AuthApi.registerUser({ email, password }).then((res) => {
+      if (res) {
+        history.push("/login");
+      }else{
+        console.log("something went wrong");
+      }
+    });
+  }
+
+  function handleUserLogin({ email, password }) {
+    if( !email || !password ) {
+      return;
+    }
+    AuthApi.authorizeUser({ email, password }).then((data) => {
+      if(data.token) {
+        setLoggedIn(true);
+        setEmail(data.email);
+        console.log(email)
+        history.push('/home');
+      }
+    })
+  }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -123,32 +169,32 @@ function App() {
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="body">
-          <Header />
+          <Header email={email} loggedIn={loggedIn} />
           <div className="homepage">
-              <Switch>
-                <ProtectedRoute
-                  path="/home"
-                  cards={cards}
-                  onCardDelete={handleCardDelete}
-                  onCardLike={handleCardLike}
-                  onCardClick={handleCardClick}
-                  onEditProfileClick={handleEditProfileClick}
-                  onEditAvatarClick={handleEditAvatarClick}
-                  onAddPlaceClick={handleAddPlaceClick}
-                  component={Main}
-                  loggedIn={loggedIn}
-                />
-                <Route path="/register">
-                  <Register/>
-                </Route>
-                <Route path="/login">
-                  <Login/>
-                </Route>
-                <Route exact path="/">
-                  {loggedIn ? <Redirect to="/home" /> : <Redirect to="/register"/> }
-                </Route>
-              </Switch>
-            <Footer />
+            <Switch>
+              <ProtectedRoute
+                path="/home"
+                cards={cards}
+                onCardDelete={handleCardDelete}
+                onCardLike={handleCardLike}
+                onCardClick={handleCardClick}
+                onEditProfileClick={handleEditProfileClick}
+                onEditAvatarClick={handleEditAvatarClick}
+                onAddPlaceClick={handleAddPlaceClick}
+                component={Main}
+                loggedIn={loggedIn}
+              />
+              <Route path="/register">
+                <Register onRegisterUser={handleUserRegistration}/>
+              </Route>
+              <Route path="/login">
+                <Login onLoginUser={handleUserLogin}/>
+              </Route>
+              <Route exact path="/">
+                {loggedIn ? <Redirect to="/home" /> : <Redirect to="/login" />}
+              </Route>
+            </Switch>
+            {loggedIn ? <Footer /> : ""}
             <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
               onClose={closeAllPopups}

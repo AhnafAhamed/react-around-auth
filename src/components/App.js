@@ -21,9 +21,11 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopuOpen] = useState(false);
+  const [isInfoToolTipOpen,setIsInfoToolTipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
 
@@ -62,11 +64,16 @@ function App() {
     }
     AuthApi.registerUser({ email, password }).then((res) => {
       if (res) {
+        setIsRegistered(true);
+        setIsInfoToolTipOpen(true);
         history.push("/login");
       }else{
+        setIsRegistered(false);
+        setIsInfoToolTipOpen(true);
         console.log("something went wrong");
       }
-    });
+    })
+    .catch((err) => console.log(err));
   }
 
   function handleUserLogin({ email, password }) {
@@ -76,11 +83,17 @@ function App() {
     AuthApi.authorizeUser({ email, password }).then((data) => {
       if(data.token) {
         setLoggedIn(true);
-        setEmail(data.email);
-        console.log(email)
+        setEmail(email);
         history.push('/home');
       }
     })
+  }
+
+  function handleUserLogout() {
+    setLoggedIn(false);
+    setEmail('');
+    localStorage.removeItem('token');
+    history.push('/login');
   }
 
   function handleCardLike(card) {
@@ -145,6 +158,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopuOpen(false);
+    setIsInfoToolTipOpen(false);
     setSelectedCard(null);
   }
 
@@ -169,7 +183,7 @@ function App() {
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="body">
-          <Header email={email} loggedIn={loggedIn} />
+          <Header email={email} loggedIn={loggedIn} logOut={handleUserLogout}/>
           <div className="homepage">
             <Switch>
               <ProtectedRoute
@@ -217,9 +231,8 @@ function App() {
               isOpen={isImagePopupOpen}
               onClose={closeAllPopups}
             />
-            <div className="hide">
-              <InfoToolTip />
-            </div>
+            <InfoToolTip isOpen={isInfoToolTipOpen} isRegistered={isRegistered} onClose={closeAllPopups}/>
+
           </div>
         </div>
       </CurrentUserContext.Provider>

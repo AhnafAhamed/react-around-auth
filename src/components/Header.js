@@ -1,12 +1,7 @@
 import logo from "../images/logo.svg";
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-function Header({loggedIn, email}) {
-  const history = useHistory();
-  function signOut() {
-    localStorage.removeItem('token');
-    history.push('/login');
-  }
+function Header({loggedIn, email, logOut}) {
   return (
     <>
       <header className="header">
@@ -15,7 +10,7 @@ function Header({loggedIn, email}) {
           { loggedIn ? <div className="header__text header__text_email">{email}</div> : '' }
           { loggedIn ? '' : <NavLink to="/login" className="header__text header__text_log-in">Log in</NavLink> }
           { loggedIn ? '' : <NavLink to="/register" className="header__text header__text_sign-up">Sign up</NavLink> }
-          { loggedIn ? <div onClick={signOut} className="header__text header__text_log-out">Log out</div> : '' }
+          { loggedIn ? <div onClick={logOut} className="header__text header__text_log-out">Log out</div> : '' }
         </div>
         
       </header>

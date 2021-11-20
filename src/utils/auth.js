@@ -22,7 +22,8 @@ class authorizationApi {
         email,
         password,
       }),
-    }).then((res) => this._checkResponse(res));
+    }).then((res) => this._checkResponse(res))
+    .catch((err) => console.log(err))
   }
 
   authorizeUser({ email, password }) {

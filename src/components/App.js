@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Route, Switch, Redirect, withRouter, BrowserRouter } from "react-router-dom";
 import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
@@ -10,6 +11,9 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import InfoToolTip from "./InfoToolTip";
+import Register from "./Register";
+import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -19,6 +23,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
+  const [loggedIn, setLogIn] = useState(false);
 
   useEffect(() => {
     api.renderUserInfo().then((data) => {
@@ -35,40 +40,41 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
-    let likeStatus = (isLiked === false) ?  api.addLike(card._id) : api.removeLike(card._id);
+    let likeStatus =
+      isLiked === false ? api.addLike(card._id) : api.removeLike(card._id);
 
     likeStatus.then((newCard) => {
-      const newCards = cards.map((c) => ((c._id === card._id) ? newCard : c));
+      const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
       setCards(newCards);
-    })
+    });
   }
 
   function handleCardDelete(card) {
     api.deleteCard(card._id).then(() => {
       const cardList = cards.filter((c) => c._id !== card._id);
-      setCards(cardList)
-    })
+      setCards(cardList);
+    });
   }
 
-  function handleUpdateUser({ name, about}) {
+  function handleUpdateUser({ name, about }) {
     api.setUserInfo({ name, about }).then((data) => {
       setCurrentUser(data);
       closePopups();
-    })
+    });
   }
 
   function handleUpdateAvatar(avatar) {
     api.setUserAvatar(avatar).then((data) => {
       setCurrentUser(data);
       closePopups();
-    })
+    });
   }
 
   function handleAddCard({ name, link }) {
     api.addCard({ name, link }).then((data) => {
       setCards([data, ...cards]);
       closePopups();
-    })
+    });
   }
 
   function handleEditProfileClick() {
@@ -116,18 +122,32 @@ function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <div className="body hide">
+        <div className="body">
           <Header />
           <div className="homepage">
-            <Main
-              cards={cards}
-              onCardDelete={handleCardDelete}
-              onCardLike={handleCardLike}
-              onCardClick={handleCardClick}
-              onEditProfileClick={handleEditProfileClick}
-              onEditAvatarClick={handleEditAvatarClick}
-              onAddPlaceClick={handleAddPlaceClick}
-            />
+              <Switch>
+                <ProtectedRoute
+                  path="/home"
+                  cards={cards}
+                  onCardDelete={handleCardDelete}
+                  onCardLike={handleCardLike}
+                  onCardClick={handleCardClick}
+                  onEditProfileClick={handleEditProfileClick}
+                  onEditAvatarClick={handleEditAvatarClick}
+                  onAddPlaceClick={handleAddPlaceClick}
+                  component={Main}
+                  loggedIn={loggedIn}
+                />
+                <Route path="/register">
+                  <Register/>
+                </Route>
+                <Route path="/login">
+                  <Login/>
+                </Route>
+                <Route exact path="/">
+                  {loggedIn ? <Redirect to="/home" /> : <Redirect to="/register"/> }
+                </Route>
+              </Switch>
             <Footer />
             <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
@@ -151,12 +171,14 @@ function App() {
               isOpen={isImagePopupOpen}
               onClose={closeAllPopups}
             />
+            <div className="hide">
+              <InfoToolTip />
+            </div>
           </div>
         </div>
-        <InfoToolTip/>
       </CurrentUserContext.Provider>
     </>
   );
 }
 
-export default App;
+export default withRouter(App);

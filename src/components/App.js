@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Route, Switch, Redirect, withRouter, useHistory } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  Redirect,
+  withRouter,
+  useHistory,
+} from "react-router-dom";
 import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
@@ -21,7 +27,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopuOpen] = useState(false);
-  const [isInfoToolTipOpen,setIsInfoToolTipOpen] = useState(false);
+  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
@@ -44,56 +50,57 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if(token){
+    const token = localStorage.getItem("token");
+    if (token) {
       AuthApi.checkUserToken(token)
-      .then((res) => {
-        setLoggedIn(true);
-        setEmail(res.data.email);
-        history.push("/");
-      })
-      .catch((err) => {
-        console.log('token' + err)
-      })
+        .then((res) => {
+          setLoggedIn(true);
+          setEmail(res.data.email);
+          history.push("/");
+        })
+        .catch((err) => {
+          console.log("token" + err);
+        });
     }
-  }, [history])
+  }, [history]);
 
   function handleUserRegistration({ email, password }) {
-    if( !email || !password ) {
+    if (!email || !password) {
       return;
     }
-    AuthApi.registerUser({ email, password }).then((res) => {
-      if (res) {
-        setIsRegistered(true);
-        setIsInfoToolTipOpen(true);
-        history.push("/login");
-      }else{
+    AuthApi.registerUser({ email, password })
+      .then((res) => {
+        if (res) {
+          setIsRegistered(true);
+          setIsInfoToolTipOpen(true);
+          history.push("/login");
+        }
+      })
+      .catch((err) => {
         setIsRegistered(false);
         setIsInfoToolTipOpen(true);
-        console.log("something went wrong");
-      }
-    })
-    .catch((err) => console.log(err));
+        console.log(err + "error");
+      });
   }
 
   function handleUserLogin({ email, password }) {
-    if( !email || !password ) {
+    if (!email || !password) {
       return;
     }
     AuthApi.authorizeUser({ email, password }).then((data) => {
-      if(data.token) {
+      if (data.token) {
         setLoggedIn(true);
         setEmail(email);
-        history.push('/home');
+        history.push("/home");
       }
-    })
+    });
   }
 
   function handleUserLogout() {
     setLoggedIn(false);
-    setEmail('');
-    localStorage.removeItem('token');
-    history.push('/login');
+    setEmail("");
+    localStorage.removeItem("token");
+    history.push("/login");
   }
 
   function handleCardLike(card) {
@@ -183,7 +190,7 @@ function App() {
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="body">
-          <Header email={email} loggedIn={loggedIn} logOut={handleUserLogout}/>
+          <Header email={email} loggedIn={loggedIn} logOut={handleUserLogout} />
           <div className="homepage">
             <Switch>
               <ProtectedRoute
@@ -199,10 +206,10 @@ function App() {
                 loggedIn={loggedIn}
               />
               <Route path="/register">
-                <Register onRegisterUser={handleUserRegistration}/>
+                <Register onRegisterUser={handleUserRegistration} />
               </Route>
               <Route path="/login">
-                <Login onLoginUser={handleUserLogin}/>
+                <Login onLoginUser={handleUserLogin} />
               </Route>
               <Route exact path="/">
                 {loggedIn ? <Redirect to="/home" /> : <Redirect to="/login" />}
@@ -231,8 +238,11 @@ function App() {
               isOpen={isImagePopupOpen}
               onClose={closeAllPopups}
             />
-            <InfoToolTip isOpen={isInfoToolTipOpen} isRegistered={isRegistered} onClose={closeAllPopups}/>
-
+            <InfoToolTip
+              isOpen={isInfoToolTipOpen}
+              isRegistered={isRegistered}
+              onClose={closeAllPopups}
+            />
           </div>
         </div>
       </CurrentUserContext.Provider>

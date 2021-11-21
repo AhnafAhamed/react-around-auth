@@ -23,7 +23,6 @@ class authorizationApi {
         password,
       }),
     }).then((res) => this._checkResponse(res))
-    .catch((err) => console.log(err))
   }
 
   authorizeUser({ email, password }) {
@@ -43,7 +42,6 @@ class authorizationApi {
           return data;
         }
       })
-      
   }
 
   checkUserToken( token ) {

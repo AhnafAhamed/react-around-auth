@@ -53,7 +53,7 @@ function Register({ onRegisterUser }) {
             type="submit"
             className="authorization__button authorization__button_sign-up"
           >
-            Sign UP
+            Sign Up
           </button>
         </form>
         <p className="authorization__info">

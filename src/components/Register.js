@@ -20,7 +20,6 @@ function Register({ onRegisterUser }) {
   }
 
   return (
-    <>
       <div className="authorization">
         <h1 className="authorization__title">Register</h1>
         <form
@@ -36,6 +35,7 @@ function Register({ onRegisterUser }) {
             name="email"
             minLength="2"
             maxLength="200"
+            defaultValue=""
             onChange={handleEmailChange}
             required
           />
@@ -46,6 +46,7 @@ function Register({ onRegisterUser }) {
             name="password"
             minLength="2"
             maxLength="200"
+            defaultValue=""
             onChange={handlePasswordChange}
             required
           />
@@ -63,7 +64,6 @@ function Register({ onRegisterUser }) {
           </NavLink>
         </p>
       </div>
-    </>
   );
 }
 

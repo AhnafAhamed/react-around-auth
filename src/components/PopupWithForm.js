@@ -1,6 +1,5 @@
 function PopupWithForm(props) {
   return (
-    <>
       <div onClick={props.onClose} className={`popup popup_${props.name} ${props.isOpen ? 'popup_open' : ''}`}>
         <div className="popup__container">
           <h3 className={`popup__title popup__title_${props.name}`}>
@@ -29,7 +28,6 @@ function PopupWithForm(props) {
           ></button>
         </div>
       </div>
-    </>
   );
 }
 

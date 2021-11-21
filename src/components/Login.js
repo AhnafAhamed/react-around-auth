@@ -19,7 +19,6 @@ function Login({ onLoginUser }) {
     });
   }
   return (
-    <>
       <div className="authorization">
         <h1 className="authorization__title">Log in</h1>
         <form action="POST" onSubmit={handleSubmit} className="authorization__form">
@@ -30,6 +29,7 @@ function Login({ onLoginUser }) {
             name="email"
             minLength="2"
             maxLength="200"
+            defaultValue=""
             onChange={handleEmailChange}
             required
           />
@@ -40,6 +40,7 @@ function Login({ onLoginUser }) {
             name="password"
             minLength="2"
             maxLength="200"
+            defaultValue=""
             onChange={handlePasswordChange}
             required
           />
@@ -57,7 +58,6 @@ function Login({ onLoginUser }) {
           </NavLink>
         </p>
       </div>
-    </>
   );
 }
 

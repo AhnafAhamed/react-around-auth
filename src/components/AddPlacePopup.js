@@ -24,7 +24,6 @@ function AddPlacePopup({ isOpen, onClose, onAddCard}) {
   }
 
   return (
-    <>
       <PopupWithForm
         name="card"
         title="New Place"
@@ -60,7 +59,6 @@ function AddPlacePopup({ isOpen, onClose, onAddCard}) {
         />
         <span id="card-link-input-error" className="popup__input-error"></span>
       </PopupWithForm>
-    </>
   );
 }
 

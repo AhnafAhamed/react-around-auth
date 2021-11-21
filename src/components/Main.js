@@ -16,7 +16,6 @@ function Main({
 {
   const currentUser = useContext(CurrentUserContext);
   return (
-    <>
       <main className="main">
         <section className="profile">
           <div className="profile__picture" onClick={onEditAvatarClick}>
@@ -45,15 +44,12 @@ function Main({
         </section>
         <section>
           <ul className="elements">
-            <>
               {cards.map((card) => (
                 <Card key={card._id} card={card} onCardDelete={onCardDelete} onCardLike={onCardLike} onCardClick={onCardClick} />
               ))}
-            </>
           </ul>
         </section>
       </main>
-    </>
   );
 }
 

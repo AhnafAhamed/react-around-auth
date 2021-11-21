@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 
 function Header({loggedIn, email, logOut}) {
   return (
-    <>
       <header className="header">
         <img className="header__logo" src={logo} alt="Around the US Logo" />
         <div className="header__info">
@@ -14,7 +13,6 @@ function Header({loggedIn, email, logOut}) {
         </div>
         
       </header>
-    </>
   );
 }
 

@@ -3,7 +3,6 @@ import errorIcon from "../images/error.svg";
 
 function InfoToolTip({ onClose, isRegistered, isOpen }) {
   return (
-    <>
       <div onClick={onClose} className={`popup popup__info-tool-tip ${isOpen ? 'popup_open' : '' }`}>
         <div className="popup__container popup__info-tool-tip_container">
             <img className="popup__info-tool-tip_icon" src={ isRegistered ? successIcon : errorIcon } alt="Status Icon" />
@@ -19,7 +18,6 @@ function InfoToolTip({ onClose, isRegistered, isOpen }) {
             ></button>
         </div>
       </div>
-    </>
   );
 }
 

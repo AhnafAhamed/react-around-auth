@@ -11,7 +11,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar}) {
   }
 
   return (
-    <>
       <PopupWithForm
         name="avatar"
         title="Change Profile Picture"
@@ -41,7 +40,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar}) {
           className="popup__input-error"
         ></span>
       </PopupWithForm>
-    </>
   );
 }
 

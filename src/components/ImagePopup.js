@@ -1,6 +1,5 @@
 function ImagePopup({ card, onClose, isOpen }) {
   return (
-    <>
       <div
         onClick={onClose}
         className={`popup popup_image-expanded ${isOpen ? "popup_open" : ""}`}
@@ -21,7 +20,6 @@ function ImagePopup({ card, onClose, isOpen }) {
           </div>
         </div>
       </div>
-    </>
   );
 }
 

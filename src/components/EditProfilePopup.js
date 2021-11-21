@@ -30,7 +30,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
   }, [currentUser, isOpen])
   
   return (
-    <>
       <PopupWithForm
         onSubmit={handleSubmit}
         name="profile"
@@ -72,7 +71,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
           className="popup__input-error"
         ></span>
       </PopupWithForm>
-    </>
   );
 }
 

@@ -19,7 +19,6 @@ function Card({ onCardClick, onCardLike, onCardDelete, card }) {
   )
 
   return (
-    <>
       <li className="elements__card">
         <img
           onClick={handleClick}
@@ -46,7 +45,6 @@ function Card({ onCardClick, onCardLike, onCardDelete, card }) {
           aria-label="Delete Button"
         ></button>
       </li>
-    </>
   );
 }
 

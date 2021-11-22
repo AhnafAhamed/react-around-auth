@@ -1,9 +1,14 @@
-import { useState } from "react/cjs/react.development";
+import { useEffect, useState } from "react/cjs/react.development";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddCard}) {
   const [cardName, setCardName] = useState("");
   const [link, setLink] = useState("");
+
+  useEffect(() => {
+    setCardName("")
+    setLink("")
+  },[isOpen])
 
   function handleCardNameChange(e) {
     setCardName(e.target.value);
@@ -19,8 +24,6 @@ function AddPlacePopup({ isOpen, onClose, onAddCard}) {
       name: cardName,
       link: link
     })
-    setCardName("")
-    setLink("")
   }
 
   return (
@@ -39,7 +42,7 @@ function AddPlacePopup({ isOpen, onClose, onAddCard}) {
           type="text"
           className="popup__input popup__input_place_name"
           placeholder="Name"
-          defaultValue={cardName}
+          value={cardName}
           minLength="2"
           maxLength="250"
           required
@@ -52,7 +55,7 @@ function AddPlacePopup({ isOpen, onClose, onAddCard}) {
           type="url"
           className="popup__input popup__input_place_image-url"
           placeholder="Image URL"
-          defaultValue={link}
+          value={link}
           minLength="2"
           maxLength="250"
           required

@@ -38,7 +38,6 @@ class authorizationApi {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("token", data.token);
-          console.log(data.token);
           return data;
         }
       })

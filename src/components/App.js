@@ -47,7 +47,7 @@ function App() {
     document.addEventListener("keydown", closeByEscape);
 
     return () => document.removeEventListener("keydown", closeByEscape);
-  });
+  },[]);
 
   useEffect(() => {
     api

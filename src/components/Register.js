@@ -35,7 +35,7 @@ function Register({ onRegisterUser }) {
             name="email"
             minLength="2"
             maxLength="200"
-            defaultValue=""
+            value=""
             onChange={handleEmailChange}
             required
           />
@@ -46,7 +46,7 @@ function Register({ onRegisterUser }) {
             name="password"
             minLength="2"
             maxLength="200"
-            defaultValue=""
+            value=""
             onChange={handlePasswordChange}
             required
           />

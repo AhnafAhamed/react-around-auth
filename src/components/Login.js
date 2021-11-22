@@ -29,7 +29,7 @@ function Login({ onLoginUser }) {
             name="email"
             minLength="2"
             maxLength="200"
-            defaultValue=""
+            value=""
             onChange={handleEmailChange}
             required
           />
@@ -40,7 +40,7 @@ function Login({ onLoginUser }) {
             name="password"
             minLength="2"
             maxLength="200"
-            defaultValue=""
+            value=""
             onChange={handlePasswordChange}
             required
           />

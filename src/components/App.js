@@ -47,7 +47,7 @@ function App() {
     document.addEventListener("keydown", closeByEscape);
 
     return () => document.removeEventListener("keydown", closeByEscape);
-  },[]);
+  }, []);
 
   useEffect(() => {
     api
@@ -134,12 +134,22 @@ function App() {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     let likeStatus =
-      isLiked === false ? api.addLike(card._id) : api.removeLike(card._id);
+      isLiked === false
+        ? api.addLike(card._id).catch((err) => {
+            console.log(err);
+          })
+        : api.removeLike(card._id).catch((err) => {
+            console.log(err);
+          });
 
-    likeStatus.then((newCard) => {
-      const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
-      setCards(newCards);
-    });
+    likeStatus
+      .then((newCard) => {
+        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
+        setCards(newCards);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleCardDelete(card) {

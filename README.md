@@ -1,7 +1,7 @@
 # [Around the U.S.](https://mccambley.github.io/react-around-api-full/)
 
 
-- Backend Repo **[backend API](https://github.com/McCambley/react-around-api-full/tree/main/backend)** 
+- Backend Repo **[backend API](https://github.com/AhnafAhamed/react-around-api-full)** 
 
 ## 📣 Overview
 
